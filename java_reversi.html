@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Java Reversi Implementation Details</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-okaidia.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Code Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-okaidia.min.css">
+    <style>
+        .code-section { margin: 20px 0; }
+        .annotation { 
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #007bff;
+            margin: 10px 0;
+        }
+        .download-btn {
+            padding: 12px 30px;
+            background: #28a745;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 0;
+        }
+        .structure-diagram {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default bootsnav navbar-fixed dark no-background">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">tomsum</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.html#portfolio">Back to Portfolio</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 120px;">
+        <h1>Java Reversi/Othello Implementation</h1>
+        <a href="assets/download/Reversi.java" download class="download-btn">
+            👀 View Source Code (Reversi.java)
+        </a>
+
+        <a href="assets/download/Reversi.zip" 
+        class="btn btn-primary btn-lg" 
+        download="Reversi.zip">
+             ⬇ Download Source Code
+       </a>
+
+        <!-- Game Structure -->
+        <section>
+            <h2>Game Architecture</h2>
+            <div class="structure-diagram">
+                <pre>
+Main Class Structure:
+└── Reversi
+    ├── main()          // Game entry point
+    ├── createBoard()   // Display game board
+    ├── startPlaying()  // Main game loop
+    ├── CheckInvalidMove() // Move validation
+    ├── PlayerCannotMove() // Check valid moves
+    ├── flip()          // Flip pieces
+    └── winLoseDraw()   // Game result calculation
+                </pre>
+            </div>
+        </section>
+
+        <!-- Core Code Analysis -->
+        <section>
+            <h2>Core Code Analysis</h2>
+
+            <!-- Initialization -->
+            <div class="code-section">
+                <h3>1. Game Initialization</h3>
+                <div class="annotation">
+                    Create N×N board with initial center pieces<br>
+                    Player 1 (Black) and Player 2 (White) setup
+                </div>
+                <pre><code class="language-java">
+int[][] board;
+int size;
+System.out.print("Please enter the board size (4 or above and even number):");
+size = kb.nextInt();
+
+if (size % 2 != 0 || size < 4) {
+    System.out.println("Error - input numbers should be 4 or above and even number.");
+    continue;
+}
+//Place 1,2 in middle position.
+board = new int[size][size];
+int middle = size / 2;
+board[middle - 1][middle - 1] = 1; // Black
+board[middle][middle] = 1;         // Black
+board[middle - 1][middle] = 2;     // White
+board[middle][middle - 1] = 2;     // White
+
+                </code></pre>
+            </div>
+
+            <!-- Board Display -->
+            <div class="code-section">
+                <h3>2. Board Display Logic</h3>
+                <div class="annotation">
+                    Formatted board printing with:<br>
+                    - Row/column numbers<br>
+                    - Grid separators
+                </div>
+                <pre><code class="language-java">
+public static void createBoard(int[][] board) {
+    // Print row numbers
+    for (int row = 0; row < board.length; row++) {
+        System.out.printf("%3d |", row);  // Row number formatting
+        
+        // Print board content
+        for (int col = 0; col < board[row].length; col++) {
+            System.out.printf("%3d", board[row][col]);
+        }
+        System.out.println();
+    }
+    
+    // Print bottom separator
+    System.out.printf("    +");
+    for (int col = 0; colNumber < board.length; colNumber++) {
+        System.out.printf("---");
+    }
+    
+    // Print column numbers
+    System.out.print("\n     ");
+    for (int col = 0; colNumber < board.length; colNumber++) {
+        System.out.printf("%3d", colNumber);
+    }
+}
+                </code></pre>
+            </div>
+
+            <!-- Main Game Loop -->
+            <div class="code-section">
+                <h3>3. Main Game Loop</h3>
+                <div class="annotation">
+                    Handles player turns with:<br>
+                    - Input validation<br>
+                    - Move checking<br>
+                    - State management
+                </div>
+                <pre><code class="language-java">
+public static void startPlaying(int board[][]) {
+    int currentPlayer = 1;
+    boolean gameFinishes = false;
+
+    while (!gameFinishes) {
+        // Check for valid moves
+        if (PlayerCannotMove(board, currentPlayer)) {
+            currentPlayer = 3 - currentPlayer;  // Switch player
+            if (PlayerCannotMove(board, currentPlayer)) {
+                gameFinishes = true;  // Both players stuck
+                break;                // Game finishes, end the game
+            }
+        }
+
+        // Player input handling
+        System.out.printf("\nPlayer '%d' enter position (row col):", currentPlayer);
+        int playerRow = kb.nextInt();
+        int playerCol = kb.nextInt();
+
+        // Input validation
+        if (playerRow < 0 || playerRow >= board.length || playerCol < 0 || playerCol >= board.length) {
+            System.out.print("Error - input numbers should be 0 to " + (board.length-1) + "!");
+            continue;
+        }
+        if (board[playerRow][playerCol] != 0) {
+            System.out.print("Position already occupied!");
+            continue;
+        }
+        if (CheckInvalidMove(board, playerRow, playerCol, currentPlayer)) {
+            System.out.print("Invalid move!");
+            continue;
+        }
+
+        // Update board state
+        board[playerRow][playerCol] = currentPlayer;
+        flip(board, playerRow, playerCol, currentPlayer);
+        createBoard(board); // call method, Print the updated board
+        //currentPlayer has moved, switch player
+        if (currentPlayer == 1) {
+            currentPlayer = 2;
+        } else {
+            currentPlayer = 1;
+        }
+    }
+    if (gameFinishes) {
+        winLoseDraw(board); //call winLoseDraw method to display the result
+    }
+}
+                </code></pre>
+            </div>
+
+            <!-- Move Validation -->
+            <div class="code-section">
+                <h3>4. Move Validation</h3>
+                <div class="annotation">
+                    8-direction check for valid sandwich pattern<br>
+                    Must flank opponent's pieces between current move and existing pieces
+                </div>
+                <pre><code class="language-java">
+public static boolean CheckInvalidMove(int[][] board, int playerRow, int playerCol, int currentPlayer) {
+    int opponentPlayer; //Get the opponent's number, 1 or 2?
+    if (currentPlayer == 1) {
+        opponentPlayer = 2;
+    } else {
+        opponentPlayer = 1;
+    }
+    //Scan Directions in board
+    int[] dirRows = {-1,-1,-1,0,0,1,1,1};  // 8 directions
+    int[] dirCols = {-1,0,1,-1,1,-1,0,1};
+
+    //there are 8 directions, so loop 8 times
+    for (int i=0; i<8; i++) {
+        int dirR = row + dirRows[i];
+        int dirC = col + dirCols[i];
+
+        // Move in the current direction until reaching the board boundaries or an empty cell
+        int row = playerRow + dirR;
+        int col = playerCol + dirC;
+
+        boolean foundOpponent = false;
+
+        // Check direction
+        while (row >=0 && row < board.length && 
+               col >=0 && col < board.length && 
+               board[row][col] == opponentPlayer) {
+            opponentDetected = true;
+            row += dirR;
+            col += dirC;
+        }
+
+        // Valid if flanked by player's piece
+        if (row >=0 && row < board.length && 
+            col >=0 && col < board.length && 
+            board[row][col] == player && opponentDetected) {
+            return false;  // Valid move
+        }
+    }
+    return true;  // Invalid move
+}
+                </code></pre>
+            </div>
+
+            <!-- Piece Flipping -->
+            <div class="code-section">
+                <h3>5. Piece Flipping Mechanism</h3>
+                <div class="annotation">
+                    Flip flanked pieces in all valid directions<br>
+                    Uses nested loops for continuous flipping
+                </div>
+                <pre><code class="language-java">
+public static void flip(int[][] board, int row, int col, int player) {
+    int opponent = 3 - player;
+    int[] dirRows = {-1,-1,-1,0,0,1,1,1};
+    int[] dirCols = {-1,0,1,-1,1,-1,0,1};
+
+    for (int i=0; i<8; i++) {
+        int r = row + dirRows[i];
+        int c = col + dirCols[i];
+        boolean opponentDetected = false;
+
+        // Keep moving in the current direction until the board boundary is reached or a non-opponent piece is found
+        while (row >=0 && row < board.length && 
+               col >=0 && col < board.length && 
+               board[row][col] == opponentPlayer) {
+            opponentDetected = true;
+            row += dirRows[i];
+            col += dirCols[i];
+        }
+
+        // Execute flipping
+        if (row >= 0 && row < board.length && 
+            col >= 0 && col < board.length &&
+            board[row][col] == currentPlayer && opponentDetected) {
+            int flipR = row + dirRows[i];
+            int flipC = col + dirCols[i];
+            while (flipR != r || flipC != c) {
+                board[flipR][flipC] = player;
+                flipR += dirRows[i];
+                flipC += dirCols[i];
+            }
+        }
+    }
+}
+                </code></pre>
+            </div>
+
+            <!-- WinLoseDraw -->
+            <div class="code-section">
+                <h3>6. Win/Lose/Draw Calculation</h3>
+                <div class="annotation">
+                    Calculate scores and determine the winner and loser
+                </div>
+                <pre><code class="language-java">
+public static void winLoseDraw(int[][] board) {
+    int blackScore = 0;
+    int whiteScore = 0;
+
+    for (int row = 0; row < board.length; row++) {
+        for (int col = 0; col < board.length; col++) {
+            if (board[row][col] == 1) {
+                blackScore++;
+            } else if (board[row][col] == 2) {
+                whiteScore++;
+            }
+        }
+    }
+
+    if (blackScore == 0) {
+        System.out.printf("\n'1' has no piece left.");
+    } else if (whiteScore == 0) {
+        System.out.printf("\n'2' has no piece left.");
+    }
+
+    System.out.printf("\nGame Finishes.");
+    System.out.printf("\n'1'- " + blackScore);
+    System.out.printf("\n'2'- " + whiteScore);
+
+    if (blackScore > whiteScore) {
+        System.out.println("\nBlack wins.");
+    } else if (whiteScore > blackScore) {
+        System.out.println("\nWhite wins.");
+    } else {
+        System.out.println("\nDraw.");
+    }
+}
+                </code></pre>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-java.min.js"></script>
+</body>
+</html>

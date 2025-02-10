@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Cross Reference Map</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-okaidia.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .code-section { margin: 20px 0; }
+        .annotation { 
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #007bff;
+            margin: 10px 0;
+        }
+        .architecture-diagram { margin: 20px 0; }
+        .component-card { padding: 20px; margin: 10px 0; }
+        
+        .project-overview h1 {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default bootsnav navbar-fixed dark no-background">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">tomsum</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.html#portfolio">Back to Portfolio</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Project Overview -->
+    <section class="project-overview" style="padding: 120px 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h1 class="text-center">Java Cross Reference Map</h1>
+                    <div class="tech-stack">
+                        <span class="label label-primary">Java 17</span>
+                        <span class="label label-success">Linked List</span>
+                        <span class="label label-info">Comparator Pattern</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="download-section">
+        <div class="container text-center">
+            <a href="assets/download/crossmap-source.zip" 
+               class="btn btn-primary btn-lg" 
+               download="CrossMap-Source.zip">
+               Download Source Code
+            </a>
+            <div class="annotation" style="margin-top:20px;">
+                <i class="fa fa-download"></i>
+                Includes all Java files
+            </div>
+        </div>
+    </section>
+
+    <br>
+    <!-- Architecture Overview -->
+    <div class="container">
+        <section class="architecture">
+            <h2 class="section-title">System Architecture</h2>
+            <div class="row">
+                <div class="col-md-4 component-card">
+                    <h4>Core Components</h4><br>
+                    <ul>
+                        <li>Comparator Interface</li>
+                        <li>StringComparator</li>
+                        <li>CrossReference Driver</li>
+                        <li>LinkedList</li>
+                        <li>IdentifierNode</li>
+                    </ul>
+                </div>
+                <div class="col-md-8">
+                    <pre><code class="language-java">
+// Execution Flow:
+1. Read source file line by line
+2. Tokenize using regex: (?:"(?:\\"|[^"])*?"|[\\s.,;:+*/|!=><@?#%&(){}\\-\\^\\[\\]\\&&]+)
+3. Validate Java identifiers
+4. Build sorted linked list of IdentifierNodes
+5. Generate cross-reference report
+                    </code></pre>
+                </div>
+            </div>
+        </section><br>
+
+        <!-- Comparator Interface -->
+        <section class="code-section">
+            <h2>Comparator Interface</h2>
+            <div class="annotation">
+                Defines comparison contract for generic objects. Implemented by StringComparator.
+            </div>
+            <pre><code class="language-java">
+public interface Comparator {
+    boolean isEqualTo(Object item1, Object item2);
+    boolean isLessThan(Object item1, Object item2);
+    boolean isLessThanOrEqualTo(Object item1, Object item2);
+    boolean isGreaterThan(Object item1, Object item2);
+    boolean isGreaterThanOrEqualTo(Object item1, Object item2);
+}
+            </code></pre>
+            <div class="annotation">
+                <strong>Key Methods:</strong>
+                <ul>
+                    <li>isEqualTo(): Checks object equality</li>
+                    <li>isLessThan(): Defines sorting order</li>
+                    <li>Comparison methods enable polymorphic sorting</li>
+                </ul>
+            </div>
+        </section><br>
+
+        <!-- StringComparator Implementation -->
+        <section class="code-section">
+            <h2>StringComparator.java</h2>
+            <div class="annotation">
+                Implements Comparator for String comparisons using natural ordering.
+            </div>
+            <pre><code class="language-java">
+public class StringComparator implements Comparator {
+    public boolean isEqualTo(Object item1, Object item2) {
+        return ((String) item1).compareTo((String) item2) == 0;
+    }
+    // Other methods use similar compareTo() logic
+    // ...
+}
+            </code></pre>
+            <div class="annotation">
+                <strong>Critical Implementation Details:</strong>
+                <ul>
+                    <li>Leverages String's native compareTo()</li>
+                    <li>Ensures case-sensitive ASCII ordering</li>
+                    <li>Provides O(1) comparison operations</li>
+                </ul>
+            </div>
+        </section><br>
+
+        <!-- CrossReference Class -->
+        <section class="code-section">
+            <h2>CrossReference.java</h2>
+            <div class="annotation">
+                Main driver class with tokenization logic and processing pipeline.
+            </div>
+            <pre><code class="language-java">
+public static void main(String[] args) throws FileNotFoundException {
+    Comparator c = new StringComparator();
+    LinkedList identifierList = new LinkedList(c);
+    // ...
+    String[] tokens = tokenizer(line);
+    for (String token : tokens) {
+        if (token.matches("[A-Za-z$_][A-Za-z0-9$_]*")) {
+            // Identifier validation logic
+        }
+    }
+}
+            </code></pre>
+            <div class="annotation">
+                <strong>Key Features:</strong>
+                <ul>
+                    <li>Regex-based tokenization (handles strings and symbols)</li>
+                    <li>Java keyword filtering (67 reserved words)</li>
+                    <li>Line number tracking</li>
+                </ul>
+            </div>
+        </section><br>
+
+        <!-- LinkedList Implementation -->
+        <section class="code-section">
+            <h2>LinkedList.java</h2>
+            <div class="annotation">
+                Custom linked list implementation with ordered insertion.
+            </div>
+            <pre><code class="language-java">
+public void insertIdentifierInOrder(String identifier, int lineNumber) {
+    // Traverse using comparator
+    while (current != null && comparator.isLessThan(
+        ((IdentifierNode) current.data).identifier, identifier)) {
+        prev = current;
+        current = current.next;
+    }
+    // Handle duplicates or insert new node
+}
+            </code></pre>
+            <div class="annotation">
+                <strong>Algorithm Complexity:</strong>
+                <ul>
+                    <li>Insertion: O(n) worst-case</li>
+                    <li>Search: O(n) linear scan</li>
+                    <li>Uses Comparator for position determination</li>
+                </ul>
+            </div>
+        </section><br>
+
+        <!-- IdentifierNode Structure -->
+        <section class="code-section">
+            <h2>IdentifierNode.java</h2>
+            <div class="annotation">
+                Data container class storing identifier metadata.
+            </div>
+            <pre><code class="language-java">
+public class IdentifierNode {
+    public String identifier;
+    public LinkedList lineNumbers;
+    // Stores line occurrences using nested LinkedList
+    public void addLineNumber(int lineNumber) {
+        lineNumbers.addToTail(lineNumber);
+    }
+}
+            </code></pre>
+            <div class="annotation">
+                <strong>Design Considerations:</strong>
+                <ul>
+                    <li>Separates identifier from line number storage</li>
+                    <li>Enables O(1) append for line numbers</li>
+                    <li>toString() formats output for reporting</li>
+                </ul>
+            </div>
+        </section><br>
+
+        <!-- Workflow Explanation -->
+        <section class="workflow">
+            <h2 class="section-title">Execution Workflow</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 style="font-size: large;">Processing Stages</h4><br>
+                    <ol>
+                        <li>File Input: Reads Java source line-by-line</li>
+                        <li>Tokenization: Splits using regex pattern</li>
+                        <li>Identifier Validation: Checks syntax and keywords</li>
+                        <li>List Insertion: Maintains sorted order using comparator</li>
+                        <li>Output Generation: Displays formatted cross-reference</li>
+                    </ol>
+                </div>
+                <div class="col-md-6">
+                    <h4>Complexity Analysis</h4>
+                    <table class="table">
+                        <tr><th>Operation</th><th>Time</th><th>Space</th></tr>
+                        <tr><td>Tokenization</td><td>O(n)</td><td>O(m)</td></tr>
+                        <tr><td>List Insertion</td><td>O(n²)</td><td>O(n)</td></tr>
+                        <tr><td>Report Generation</td><td>O(n)</td><td>O(1)</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <pre><code class="language-java">
+                Sample Output:
+                SOURCE FILE: Test.java
+                0001 | 
+                0002 | public class Test {
+                0003 | 
+                0004 |     public static void main(String[] args) {
+                0005 |         int count = 10;
+                0006 |         System.out.println("Count: " + count);
+                0007 |     }
+                0008 | }
+                
+                Cross Map Reference :-
+                String: [ 4 ]
+                System: [ 6 ]
+                Test: [ 2 ]
+                args: [ 4 ]
+                count: [ 5 6 ]
+                main: [ 4 ]
+                out: [ 6 ]
+                println: [ 6 ]
+                
+                Total identifier(s) extracted: 9
+                            </code></pre>
+        </section><br>
+
+        <!-- Optimization Strategies -->
+        <section class="optimization">
+            <h2 class="section-title">Optimization Potential</h2>
+            <div class="annotation">
+                <strong>Performance Enhancements:</strong>
+                <ul>
+                    <li>Replace LinkedList with Balanced BST (O(log n) insertions)</li>
+                    <li>Implement hash table for O(1) identifier lookups</li>
+                    <li>Use TreeSet for automatic sorting</li>
+                    <li>Parallelize line processing using streams</li>
+                </ul>
+            </div>
+        </section>
+    </div><br>
+
+            
+    <!-- Scripts -->
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-java.min.js"></script>
+</body>
+</html>
