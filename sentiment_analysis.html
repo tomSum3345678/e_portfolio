@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis Model</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-okaidia.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Code Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-okaidia.min.css">
+    <style>
+        .code-section { margin: 20px 0; }
+        .annotation { 
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #007bff;
+            margin: 10px 0;
+        }
+        .dataset-table { margin: 20px 0; }
+        .visualization { height: 400px; }
+        
+        .project-overview h1 {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+        }
+        
+        .colab-link {
+            font-size: 1.2rem;
+            padding: 15px 30px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default bootsnav navbar-fixed dark no-background">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">tomsum</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.html#portfolio">Back to Portfolio</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+        <!-- Project Overview -->
+        <section class="project-overview" style="padding: 120px 0;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h1 class="text-center">Sentiment Analysis Model</h1>
+                        <div class="tech-stack">
+                            <span class="label label-primary">Python</span>
+                            <span class="label label-success">NLTK</span>
+                            <span class="label label-info">VADER</span>
+                            <span class="label label-warning">Scikit-learn</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. Project Link Section -->
+            <section class="project-link">
+                <div class="container text-center">
+                    <h2 class="section-title">Project Implementation</h2>
+                    <a href="https://colab.research.google.com/drive/1oYSZC5IX5y2ElSPOr9ItOquMkYi-DLRO?usp=drive_link" 
+                       class="btn btn-primary colab-link" 
+                       target="_blank"
+                       rel="noopener noreferrer">
+                       Open in Google Colab
+                    </a>
+                    <div class="annotation" style="margin-top:20px;">
+                        <i class="fa fa-external-link"></i>
+                        Click above to access the complete implementation notebook
+                    </div>
+                </div>
+            </section><br><br><br>
+            
+
+        
+    <div class="container">
+        <!-- 1. Data Acquisition -->
+        <section class="data-acquisition">
+            <h2>1. Data Acquisition</h2>
+            <div class="annotation">
+                <strong>Dataset Source:</strong> Google Drive hosted CSV file containing product reviews
+            </div>
+            <pre><code class="language-python">
+# @title Download dataset
+!pip install gdown
+import gdown
+
+file_id = '1n7GqTNufneEvgjmnCD26K441tF5bgkcG'
+gdown.download(f'https://drive.google.com/uc?id={file_id}', 
+               'Product Review Data.csv', 
+               quiet=False)
+            </code></pre>
+        </section>
+
+        <!-- 2. Data Loading -->
+        <section class="data-loading">
+            <h2>2. Data Loading</h2>
+            <div class="annotation">
+                <strong>Dataset Structure:</strong> Contains 21 features including ratings, review text, and product details
+            </div>
+            <pre><code class="language-python">
+import pandas as pd
+
+# Load raw dataset
+raw_df = pd.read_csv('Product Review Data.csv')
+
+# Display initial structure
+print("Initial dataset dimensions:", raw_df.shape)
+print("\nFirst record sample:")
+print(raw_df.iloc[0])
+            </code></pre>
+        </section>
+
+        <!-- 3. Data Cleaning -->
+        <section class="data-cleaning">
+            <h2>3. Data Cleaning</h2>
+            <div class="annotation">
+                <strong>Cleaning Steps:</strong>
+                <ul>
+                    <li>Select relevant features</li>
+                    <li>Handle missing values</li>
+                    <li>Standardize column names</li>
+                </ul>
+            </div>
+            <pre><code class="language-python">
+# Feature selection and cleaning
+clean_df = raw_df[['reviews.rating', 'reviews.text', 'reviews.title']]
+clean_df.columns = ['Rating', 'ReviewText', 'ReviewTitle']
+clean_df = clean_df.dropna(subset=['Rating', 'ReviewText'])
+
+# Save cleaned data
+clean_df.to_csv('Cleaned_Product_Review_Data.csv', index=False)
+            </code></pre>
+        </section>
+
+        <!-- 4. Text Preprocessing -->
+        <section class="preprocessing">
+            <h2>4. Text Preprocessing</h2>
+            <div class="annotation">
+                <strong>Processing Pipeline:</strong>
+                <ul>
+                    <li>HTML tag removal</li>
+                    <li>Special character removal</li>
+                    <li>Lowercasing</li>
+                    <li>Stopword removal</li>
+                </ul>
+            </div>
+            <pre><code class="language-python">
+import re
+import nltk
+from nltk.corpus import stopwords
+
+nltk.download('stopwords')
+
+def preprocess_text(text):
+    text = re.sub(r'<.*?>', '', text)  # Remove HTML tags
+    text = re.sub(r'[^a-zA-Z\s]', '', text)  # Remove special chars
+    text = text.lower()
+    stop_words = set(stopwords.words('english'))
+    return ' '.join([word for word in text.split() 
+                   if word not in stop_words])
+
+clean_df['CleanText'] = clean_df['ReviewText'].apply(preprocess_text)
+            </code></pre>
+        </section>
+
+        <!-- 5. Sentiment Analysis -->
+        <section class="sentiment-analysis">
+            <h2>5. Sentiment Analysis</h2>
+            <div class="annotation">
+                <strong>VADER Implementation:</strong> Hybrid approach combining lexicon-based and machine learning methods
+            </div>
+            <pre><code class="language-python">
+from nltk.sentiment import SentimentIntensityAnalyzer
+
+nltk.download('vader_lexicon')
+sia = SentimentIntensityAnalyzer()
+
+# Calculate sentiment scores
+clean_df['compound'] = clean_df['ReviewText'].apply(
+    lambda x: sia.polarity_scores(x)['compound']
+)
+
+# Normalize and classify
+clean_df['normalized_compound'] = (clean_df['compound'] + 1) / 2
+clean_df['Sentiment'] = clean_df['normalized_compound'].apply(
+    lambda x: 'positive' if x > 0.5 else 'negative'
+)
+            </code></pre>
+        </section>
+
+        <!-- 6. Model Training -->
+        <section class="model-training">
+            <h2>6. Model Training</h2>
+            <div class="annotation">
+                <strong>Model Architecture:</strong> Multinomial Naive Bayes classifier with TF-IDF features
+            </div>
+            <pre><code class="language-python">
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.model_selection import train_test_split
+
+# Feature engineering
+tfidf = TfidfVectorizer(max_features=5000)
+text_features = tfidf.fit_transform(clean_df['CleanText'])
+X = np.hstack((text_features.toarray(), 
+             clean_df['normalized_compound'].values.reshape(-1,1)))
+y = clean_df['Sentiment']
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42)
+
+# Model training
+model = MultinomialNB()
+model.fit(X_train, y_train)
+            </code></pre>
+        </section>
+
+        <!-- 7. Model Evaluation -->
+        <section class="model-evaluation">
+            <h2>7. Model Evaluation</h2>
+            <div class="annotation">
+                <strong>Performance Metrics:</strong> Accuracy 88%, F1-Score 0.87
+            </div>
+            <pre><code class="language-python">
+from sklearn.metrics import classification_report
+
+y_pred = model.predict(X_test)
+print(classification_report(y_test, y_pred))
+            </code></pre>
+            <div id="confusion-matrix" class="visualization"></div>
+        </section>
+
+
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script>
+    <script>
+        // Initialize ECharts
+        const chart = echarts.init(document.getElementById('confusion-matrix'));
+        const option = {
+            title: { text: 'Confusion Matrix' },
+            tooltip: { trigger: 'item' },
+            xAxis: { data: ['Negative', 'Positive'] },
+            yAxis: { data: ['Negative', 'Positive'] },
+            visualMap: { min: 0, max: 1629, calculable: true },
+            series: [{
+                type: 'heatmap',
+                data: [[0,0,225], [0,1,226], [1,0,31], [1,1,1629]],
+                label: { show: true }
+            }]
+        };
+        chart.setOption(option);
+
+        function analyzeSentiment() {
+            const review = document.getElementById('review-input').value;
+            // Simulate API call
+            const result = {
+                sentiment: review.includes('disappointed') ? 'negative' : 'positive',
+                confidence: Math.random().toFixed(2)
+            };
+            document.getElementById('result-container').innerHTML = `
+                <div class="alert alert-${result.sentiment === 'positive' ? 'success' : 'danger'}">
+                    Sentiment: ${result.sentiment}<br>
+                    Confidence: ${result.confidence}
+                </div>`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supermarket Web Application</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* ===== Hero ===== */
+        .hero-section {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+        .hero-section h1 {
+            font-weight: 700;
+            font-size: 4.2rem;
+            color: #ffffff;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .hero-section .lead {
+            font-size: 2rem;
+            color: #ffffff;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+            margin-top: 10px;
+        }
+        .hero-section .tech-tag {
+            font-size: 1.5rem;
+            color: #f0f0f0;
+            letter-spacing: 1px;
+            margin-top: 15px;
+        }
+
+        /* ===== 按钮 ===== */
+        .btn-cta {
+            background-color: #ff6b35;
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+            margin-top: 20px;
+            display: inline-block;
+        }
+        .btn-cta:hover {
+            background-color: #e55a2b;
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.5);
+        }
+        .btn-cta i {
+            margin-right: 8px;
+        }
+        .btn-github {
+            background: #24292e;
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        .btn-github:hover {
+            background: #444d56;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* ===== Feature Cards ===== */
+        .feature-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            height: 100%;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        .feature-card .card-body {
+            padding: 2rem 1.8rem;
+        }
+        .feature-card .card-title {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #1e3c72;
+        }
+        .feature-card ul li {
+            padding: 8px 0;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        .feature-card ul li::before {
+            content: "▸ ";
+            color: #2a5298;
+            font-weight: 700;
+        }
+        .feature-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        /* ===== Tech Stack ===== */
+        .tech-stack-icons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px 50px;
+            margin: 30px 0 40px 0;
+        }
+        .tech-stack-icons .tech-item {
+            text-align: center;
+        }
+        .tech-stack-icons .tech-item img {
+            height: 80px;
+            width: 80px;
+            object-fit: contain;
+        }
+        .tech-stack-icons .tech-item span {
+            display: block;
+            font-size: 1.1rem;
+            color: #333;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        .arch-list {
+            list-style: none;
+            padding: 0;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .arch-list li {
+            padding: 14px 0;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 1.15rem;
+            color: #222;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .arch-list li:last-child {
+            border-bottom: none;
+        }
+        .arch-list li strong {
+            color: #1e3c72;
+            min-width: 120px;
+            font-size: 1.2rem;
+        }
+
+        /* ===== Section Titles ===== */
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 40px;
+            position: relative;
+            text-align: center;
+        }
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 5px;
+            background: #ff6b35;
+            margin: 15px auto 0;
+            border-radius: 4px;
+        }
+
+        /* ===== Nav ===== */
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+        .navbar-nav li a {
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        /* ===== Footer ===== */
+        footer p {
+            font-size: 1rem;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .hero-section h1 { font-size: 2.8rem; }
+            .hero-section .lead { font-size: 1.5rem; }
+            .hero-section .tech-tag { font-size: 1.2rem; }
+            .section-title { font-size: 2.2rem; }
+            .btn-cta, .btn-github { font-size: 1.1rem; padding: 12px 25px; }
+            .tech-stack-icons .tech-item img { height: 60px; width: 60px; }
+            .feature-card .card-title { font-size: 1.3rem; }
+            .feature-card ul li { font-size: 1rem; }
+            .arch-list li { font-size: 1rem; flex-wrap: wrap; }
+            .arch-list li strong { min-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== Navigation ===== -->
+<nav class="navbar navbar-default bootsnav navbar-fixed dark no-background">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="index.html">tomsum</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-menu">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="index.html#portfolio"><i class="fa fa-arrow-left"></i> Back to Portfolio</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ===== Hero Section ===== -->
+<section class="hero-section">
+    <div class="container">
+        <h1>Supermarket Web Application</h1>
+        <p class="lead">Comprehensive Product Management System</p>
+        <p class="tech-tag">Node.js · Express · MongoDB · Passport.js · EJS · Render</p>
+        <a href="https://github.com/tomSum3345678/COMP3810SEF-Group11" target="_blank" class="btn-github">
+            <i class="fa fa-github"></i> View on GitHub
+        </a>
+    </div>
+</section>
+
+<!-- ===== Key Features ===== -->
+<section class="container py-5">
+    <br><br>
+    <h2 class="section-title">Key Features</h2>
+    <div class="row g-4 mt-2">
+        <div class="col-md-4">
+            <div class="card feature-card">
+                <div class="card-body">
+                    <h5 class="card-title">🔐 Authentication</h5>
+                    <ul>
+                        <li>Google OAuth 2.0 &amp; Local Strategy (Passport.js)</li>
+                        <li>Role-based access (USER / STAFF)</li>
+                        <li>Secure session management with MongoDB store</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card feature-card">
+                <div class="card-body">
+                    <h5 class="card-title">🛒 Product &amp; Cart Management</h5>
+                    <ul>
+                        <li>Full CRUD for products (create, read, update, delete)</li>
+                        <li>Search, filter by category, and pagination</li>
+                        <li>Shopping cart with quantity adjustments</li>
+                        <li>Checkout &amp; invoice generation (PDF-ready)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card feature-card">
+                <div class="card-body">
+                    <h5 class="card-title">📡 RESTful APIs</h5>
+                    <ul>
+                        <li>Product APIs (GET, POST, PUT, DELETE)</li>
+                        <li>Cart APIs for guest and authenticated users</li>
+                        <li>Search &amp; filter endpoints</li>
+                        <li>Fully documented with curl examples</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<br><br>
+<!-- ===== Technical Architecture ===== -->
+<section class="bg-light py-5">
+    <div class="container">
+        <h2 class="section-title">Technical Architecture</h2>
+
+        <!-- Tech Stack Icons -->
+        <div class="tech-stack-icons">
+            <div class="tech-item">
+                <img src="https://img.icons8.com/color/96/nodejs.png" alt="Node.js">
+                <span>Node.js</span>
+            </div>
+            <div class="tech-item">
+                <img src="https://img.icons8.com/color/96/express.png" alt="Express">
+                <span>Express</span>
+            </div>
+            <div class="tech-item">
+                <img src="https://img.icons8.com/color/96/mongodb.png" alt="MongoDB">
+                <span>MongoDB Atlas</span>
+            </div>
+            <div class="tech-item">
+                <img src="https://img.icons8.com/color/96/passport.png" alt="Passport">
+                <span>Passport.js</span>
+            </div>
+            <div class="tech-item">
+                <img src="https://img.icons8.com/color/96/ejs.png" alt="EJS">
+                <span>EJS</span>
+            </div>
+            <div class="tech-item">
+                <img src="assets/images/portfolio/render.jpeg" alt="Render">
+                <span>Render</span>
+            </div>
+        </div>
+
+        <!-- Architecture Description -->
+        <ul class="arch-list">
+            <li>
+                <strong>Backend</strong>
+                <span>Node.js + Express – RESTful API server with modular controllers and middleware for authentication and validation.</span>
+            </li>
+            <li>
+                <strong>Database</strong>
+                <span>MongoDB Atlas – NoSQL database with collections for users, products, carts, and permissions.</span>
+            </li>
+            <li>
+                <strong>Authentication</strong>
+                <span>Passport.js – Google OAuth 2.0 and local strategy, with session persistence using MongoDB store.</span>
+            </li>
+            <li>
+                <strong>Frontend</strong>
+                <span>EJS templates – server‑side rendering with responsive navbar, product listing, cart, and invoice pages.</span>
+            </li>
+            <li>
+                <strong>Deployment</strong>
+                <span>Render – cloud hosting with environment variables for secure configuration.</span>
+            </li>
+            <li>
+                <strong>Version Control</strong>
+                <span>Git – collaborative development with group contributions.</span>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="text-center py-4 bg-dark text-white">
+    <p class="mb-0">&copy; 2025 Tom SUM Ka On — HKMU COMP3810SEF Group 11 Project</p>
+</footer>
+
+<!-- ===== Scripts ===== -->
+<script src="assets/js/jquery.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+</body>
+</html>
