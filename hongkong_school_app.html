@@ -1,0 +1,265 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <!-- meta data -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- font-family -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&amp;subset=devanagari,latin-ext" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    
+    <title>Hong Kong School Info App</title>
+
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <style>
+        /* ===== Hero Banner with Background Image ===== */
+        .hero-banner {
+            background-image: url('assets/images/portfolio/hk_school_app_thumb.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            padding: 120px 0 100px 0;
+            text-align: center;
+        }
+        .hero-banner::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(26, 42, 108, 0.75);
+            z-index: 1;
+        }
+        .hero-banner .container {
+            position: relative;
+            z-index: 2;
+        }
+        .hero-banner h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 3px 15px rgba(0,0,0,0.4);
+            letter-spacing: 1px;
+        }
+        .hero-banner .subtitle {
+            font-size: 2rem;
+            color: #f0f4ff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            margin-top: 10px;
+            font-weight: 300;
+        }
+        .hero-banner .tech-tag {
+            font-size: 1.5rem;
+            color: #c8d6e5;
+            letter-spacing: 2px;
+            margin-top: 15px;
+            font-weight: 300;
+        }
+
+        /* ===== Section Titles ===== */
+        .section-title {
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: #1a2a6c;
+            margin-top: 50px;
+            margin-bottom: 20px;
+        }
+        .section-title:first-of-type {
+            margin-top: 0;
+        }
+
+        /* ===== Content Text ===== */
+        .content-text {
+            font-size: 1.25rem;
+            line-height: 2;
+            color: #2c3e50;
+        }
+        .content-list {
+            font-size: 1.2rem;
+            line-height: 2.2;
+            color: #2c3e50;
+            padding-left: 20px;
+        }
+        .content-list li {
+            padding: 4px 0;
+        }
+        .tech-stack-text {
+            font-size: 1.2rem;
+            line-height: 2;
+            color: #2c3e50;
+        }
+
+        /* ===== CTA Button ===== */
+        .btn-cta-solid {
+            background-color: #ff6b35;
+            color: #ffffff;
+            border: none;
+            padding: 16px 50px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 6px 25px rgba(255, 107, 53, 0.45);
+            display: inline-block;
+            text-decoration: none;
+        }
+        .btn-cta-solid:hover {
+            background-color: #e55a2b;
+            color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 35px rgba(255, 107, 53, 0.55);
+            text-decoration: none;
+        }
+        .btn-cta-solid i {
+            margin-right: 10px;
+        }
+
+        /* ===== Nav ===== */
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+        .navbar-nav li a {
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        /* ===== Footer ===== */
+        footer p {
+            font-size: 1rem;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .hero-banner { padding: 80px 0 60px 0; }
+            .hero-banner h1 { font-size: 2.8rem; }
+            .hero-banner .subtitle { font-size: 1.4rem; }
+            .hero-banner .tech-tag { font-size: 1.1rem; }
+            .section-title { font-size: 2rem; }
+            .content-text { font-size: 1.1rem; }
+            .content-list { font-size: 1.05rem; }
+            .tech-stack-text { font-size: 1.05rem; }
+            .btn-cta-solid { font-size: 1.1rem; padding: 14px 30px; }
+        }
+        @media (max-width: 480px) {
+            .hero-banner h1 { font-size: 2.2rem; }
+            .hero-banner .subtitle { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ===== Navigation ===== -->
+    <nav class="navbar navbar-default bootsnav navbar-fixed dark no-background">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">tomsum</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.html#portfolio">← Back to Portfolio</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== Hero Banner with Background Image ===== -->
+    <section class="hero-banner">
+        <div class="container">
+            <h1>Hong Kong School Info</h1>
+            <p class="subtitle">Your All-in-One School Information &amp; Comparison Platform</p>
+            <p class="tech-tag">React Native · Maps</p>
+            
+            <!-- CTA Button - Solid Orange -->
+            <div style="margin-top: 40px;">
+                <a href="https://drive.google.com/file/d/1CKQ6_p4DcJfi2bpotsKeFMrjwXdhMrCE/view?usp=sharing" 
+                   target="_blank" 
+                   class="btn-cta-solid">
+                    <i class="fa fa-google"></i> View App Details
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Project Content ===== -->
+    <section style="padding: 60px 0 80px 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+
+                    <!-- Overview -->
+                    <h3 class="section-title">Project Overview</h3>
+                    <p class="content-text">
+                        Hong Kong School Info is dedicated to providing parents and students with a one-stop Hong Kong school search experience. 
+                        It integrates comprehensive kindergarten, primary, and secondary school data from the official Education Bureau (EDB) 
+                        dataset, making educational resource comparison and selection simpler and more intuitive than ever.
+                    </p>
+
+                    <!-- Key Features -->
+                    <h3 class="section-title">Key Features</h3>
+                    <ul class="content-list">
+                        <li><strong>Smart Search</strong> – Find schools by name or district with real-time bilingual filtering</li>
+                        <li><strong>Favorites</strong> – Save preferred schools to your list with offline storage (AsyncStorage)</li>
+                        <li><strong>Comparison</strong> – Multi-dimensional side-by-side school comparison</li>
+                        <li><strong>Map View</strong> – Interactive school locations with markers and tooltips</li>
+                        <li><strong>Dark Mode</strong> – Full system-level dark theme support</li>
+                        <li><strong>Bilingual</strong> – Seamless Chinese &amp; English switching</li>
+                    </ul>
+
+                    <!-- Methods -->
+                    <h3 class="section-title">Methods</h3>
+                    <ul class="content-list">
+                        <li><strong>Data Collection</strong> – Official EDB JSON dataset used directly; structured and filtered dynamically within the app</li>
+                        <li><strong>Cross-Platform Architecture</strong> – Built with React Native using React Hooks, AsyncStorage, and React Native Maps</li>
+                        <li><strong>UI/UX Design</strong> – Modern minimalism with dark/light mode, bilingual support, and accessibility-tested contrast</li>
+                    </ul>
+
+                    <!-- Technology Stack -->
+                    <h3 class="section-title">Technology Stack</h3>
+                    <p class="tech-stack-text">
+                        <strong>Framework:</strong> React Native (cross-platform iOS/Android)<br>
+                        <strong>UI Libraries:</strong> React Native Paper, React Native Maps<br>
+                        <strong>Storage:</strong> AsyncStorage (offline favorites &amp; language preferences)<br>
+                        <strong>State Management:</strong> React Hooks (useState, useEffect, useRef)<br>
+                        <strong>Device APIs:</strong> Linking (open school websites), MapView<br>
+                        <strong>Data Source:</strong> Official EDB JSON dataset
+                    </p>
+
+                    <!-- Acknowledgements -->
+                    <h3 class="section-title">Acknowledgements</h3>
+                    <p class="content-text">
+                        🙏 Special thanks to the <strong>Hong Kong Education Bureau</strong> for open data support, 
+                        and the open-source community for contributions to the React Native ecosystem.
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Footer ===== -->
+    <footer id="footer-copyright" class="footer-copyright">
+        <div class="container">
+            <div class="hm-footer-copyright text-center">
+                <p>&copy; 2025 Tom SUM Ka On — COMP3130SEF Group Project</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== Scripts ===== -->
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+</body>
+
+</html>
